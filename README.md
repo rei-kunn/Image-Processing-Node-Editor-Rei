@@ -1,4 +1,11 @@
-[Japanese/[English](README_EN.md)]
+This is a submodel that is copied from [Kaoru-san repo](https://github.com/Nozium/Image-Processing-Node-Editor/tree/feature/extend_to_apple_silicon) and now it is being edited by Rei
+
+**Purpose
+
+- to edit this node editor to be able to use on Macbook
+- To fix AGX error
+
+<!-- [Japanese/[English](README_EN.md)]
 
 # Image-Processing-Node-Editor
 ノードエディターベースの画像処理アプリです。<br>
@@ -670,4 +677,4 @@ Image-Processing-Node-Editorのソースコード自体は[Apache-2.0 license](L
 詳細は各ディレクトリ同梱のLICENSEファイルをご確認ください。
 
 # License(Image)
-サンプルで表示している画像は[フリー素材ぱくたそ](https://www.pakutaso.com/)様、[NHKクリエイティブ・ライブラリー](https://www.nhk.or.jp/archives/creative/)様からお借りしています。
+サンプルで表示している画像は[フリー素材ぱくたそ](https://www.pakutaso.com/)様、[NHKクリエイティブ・ライブラリー](https://www.nhk.or.jp/archives/creative/)様からお借りしています。 -->

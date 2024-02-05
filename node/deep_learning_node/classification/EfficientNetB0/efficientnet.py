@@ -16,7 +16,7 @@ class EfficientNet(object):
             #     'trt_engine_cache_path': '.',
             #     'trt_fp16_enable': True,
             # }),
-            'CUDAExecutionProvider',
+            # 'CUDAExecutionProvider',
             'CPUExecutionProvider',
         ],
     ):
@@ -82,7 +82,7 @@ class EfficientNetB0(object):
             #     'trt_engine_cache_path': '.',
             #     'trt_fp16_enable': True,
             # }),
-            'CUDAExecutionProvider',
+            # 'CUDAExecutionProvider',
             'CPUExecutionProvider',
         ],
     ):
@@ -104,7 +104,7 @@ class EfficientNetB1(object):
             #     'trt_engine_cache_path': '.',
             #     'trt_fp16_enable': True,
             # }),
-            'CUDAExecutionProvider',
+            # 'CUDAExecutionProvider',
             'CPUExecutionProvider',
         ],
     ):
@@ -126,7 +126,7 @@ class EfficientNetB2(object):
             #     'trt_engine_cache_path': '.',
             #     'trt_fp16_enable': True,
             # }),
-            'CUDAExecutionProvider',
+            # 'CUDAExecutionProvider',
             'CPUExecutionProvider',
         ],
     ):
@@ -148,7 +148,7 @@ class EfficientNetB3(object):
             #     'trt_engine_cache_path': '.',
             #     'trt_fp16_enable': True,
             # }),
-            'CUDAExecutionProvider',
+            # 'CUDAExecutionProvider',
             'CPUExecutionProvider',
         ],
     ):
@@ -170,7 +170,7 @@ class EfficientNetB4(object):
             #     'trt_engine_cache_path': '.',
             #     'trt_fp16_enable': True,
             # }),
-            'CUDAExecutionProvider',
+            # 'CUDAExecutionProvider',
             'CPUExecutionProvider',
         ],
     ):
@@ -192,7 +192,7 @@ class EfficientNetB5(object):
             #     'trt_engine_cache_path': '.',
             #     'trt_fp16_enable': True,
             # }),
-            'CUDAExecutionProvider',
+            # 'CUDAExecutionProvider',
             'CPUExecutionProvider',
         ],
     ):
@@ -214,7 +214,7 @@ class EfficientNetB6(object):
             #     'trt_engine_cache_path': '.',
             #     'trt_fp16_enable': True,
             # }),
-            'CUDAExecutionProvider',
+            # 'CUDAExecutionProvider',
             'CPUExecutionProvider',
         ],
     ):
@@ -236,7 +236,7 @@ class EfficientNetB7(object):
             #     'trt_engine_cache_path': '.',
             #     'trt_fp16_enable': True,
             # }),
-            'CUDAExecutionProvider',
+            # 'CUDAExecutionProvider',
             'CPUExecutionProvider',
         ],
     ):

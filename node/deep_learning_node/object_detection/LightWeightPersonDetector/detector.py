@@ -21,7 +21,7 @@ class LWPDetector(object):
             #     'trt_engine_cache_path': '.',
             #     'trt_fp16_enable': True,
             # }),
-                'CUDAExecutionProvider',
+                # 'CUDAExecutionProvider',
                 'CPUExecutionProvider',
             ],
             num_threads=None,  # Valid only when using Tensorflow-Lite

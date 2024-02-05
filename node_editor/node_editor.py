@@ -29,7 +29,7 @@ class DpgNodeEditor(object):
 
     _opencv_setting_dict = None
 
-    _use_debug_print = False
+    _use_debug_print = True
 
     def __init__(
         self,
@@ -245,6 +245,7 @@ class DpgNodeEditor(object):
 
     def _callback_link(self, sender, data):
         # 各接続子の型を取得
+        print(data[0])
         source_type = data[0].split(':')[2]
         destination_type = data[1].split(':')[2]
 

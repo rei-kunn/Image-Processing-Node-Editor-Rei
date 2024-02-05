@@ -109,6 +109,13 @@ def main():
     webcam_width = opencv_setting_dict['webcam_width']
     webcam_height = opencv_setting_dict['webcam_height']
 
+    # updated code
+    # device_index_nuroum_v11 = 0  # Update this index to match the one that worked
+    # video_capture = cv2.VideoCapture(device_index_nuroum_v11)
+    # video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, webcam_width)
+    # video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, webcam_height)
+
+    # print('**** Camera Initialization Complete ********')
     # 接続カメラチェック
     print('**** Check Camera Connection ********')
     device_no_list = check_camera_connection()

@@ -16,7 +16,7 @@ class MobileNetV3(object):
             #     'trt_engine_cache_path': '.',
             #     'trt_fp16_enable': True,
             # }),
-            'CUDAExecutionProvider',
+            # 'CUDAExecutionProvider',
             'CPUExecutionProvider',
         ],
     ):

@@ -1,20 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import cv2
-import numpy as np
 import dearpygui.dearpygui as dpg
-
-from node_editor.util import dpg_get_value, dpg_set_value
-
+import numpy as np
 from node.node_abc import DpgNodeABC
-from node_editor.util import convert_cv_to_dpg
+from node_editor.util import convert_cv_to_dpg, dpg_get_value, dpg_set_value
 
 
 class Node(DpgNodeABC):
-    _ver = '0.0.1'
+    _ver = "0.0.1"
 
-    node_label = 'Image'
-    node_tag = 'Image'
+    node_label = "Image"
+    node_tag = "Image"
 
     _opencv_setting_dict = None
 
@@ -34,18 +31,20 @@ class Node(DpgNodeABC):
         callback=None,
     ):
         # タグ名
-        tag_node_name = str(node_id) + ':' + self.node_tag
-        tag_node_input01_name = tag_node_name + ':' + self.TYPE_INT + ':Input01'
-        tag_node_output01_name = tag_node_name + ':' + self.TYPE_IMAGE + ':Output01'
-        tag_node_output01_value_name = tag_node_name + ':' + self.TYPE_IMAGE + ':Output01Value'
+        tag_node_name = str(node_id) + ":" + self.node_tag
+        tag_node_input01_name = tag_node_name + ":" + self.TYPE_INT + ":Input01"
+        tag_node_output01_name = tag_node_name + ":" + self.TYPE_IMAGE + ":Output01"
+        tag_node_output01_value_name = (
+            tag_node_name + ":" + self.TYPE_IMAGE + ":Output01Value"
+        )
 
         # OpenCV向け設定
         self._opencv_setting_dict = opencv_setting_dict
-        small_window_w = self._opencv_setting_dict['input_window_width']
-        small_window_h = self._opencv_setting_dict['input_window_height']
+        small_window_w = self._opencv_setting_dict["input_window_width"]
+        small_window_h = self._opencv_setting_dict["input_window_height"]
 
         # 初期化用黒画像
-        black_image = np.zeros((small_window_w, small_window_h, 3))
+        black_image = np.zeros((small_window_w, small_window_h, 4))
         black_texture = convert_cv_to_dpg(
             black_image,
             small_window_w,
@@ -59,43 +58,45 @@ class Node(DpgNodeABC):
                 small_window_h,
                 black_texture,
                 tag=tag_node_output01_value_name,
-                format=dpg.mvFormat_Float_rgb,
+                format=dpg.mvFormat_Float_rgba,
             )
 
         with dpg.file_dialog(
-                directory_selector=False,
-                show=False,
-                modal=True,
-                height=int(small_window_h * 3),
-                callback=self._callback_file_select,
-                id='image_select:' + str(node_id),
+            directory_selector=False,
+            show=False,
+            modal=True,
+            height=int(small_window_h * 3),
+            callback=self._callback_file_select,
+            id="image_select:" + str(node_id),
         ):
             dpg.add_file_extension(
-                'Image (*.bmp *.jpg *.png *.gif){.bmp,.jpg,.png,.gif}')
-            dpg.add_file_extension('', color=(150, 255, 150, 255))
+                "Image (*.bmp *.jpg *.png *.gif){.bmp,.jpg,.png,.gif}"
+            )
+            dpg.add_file_extension("", color=(150, 255, 150, 255))
 
         # ノード
         with dpg.node(
-                tag=tag_node_name,
-                parent=parent,
-                label=self.node_label,
-                pos=pos,
+            tag=tag_node_name,
+            parent=parent,
+            label=self.node_label,
+            pos=pos,
         ):
             # ファイル選択
             with dpg.node_attribute(
-                    tag=tag_node_input01_name,
-                    attribute_type=dpg.mvNode_Attr_Static,
+                tag=tag_node_input01_name,
+                attribute_type=dpg.mvNode_Attr_Static,
             ):
                 dpg.add_button(
-                    label='Select Image',
+                    label="Select Image",
                     width=small_window_w,
                     callback=lambda: dpg.show_item(
-                        'image_select:' + str(node_id), ),
+                        "image_select:" + str(node_id),
+                    ),
                 )
             # カメラ画像
             with dpg.node_attribute(
-                    tag=tag_node_output01_name,
-                    attribute_type=dpg.mvNode_Attr_Output,
+                tag=tag_node_output01_name,
+                attribute_type=dpg.mvNode_Attr_Output,
             ):
                 dpg.add_image(tag_node_output01_value_name)
 
@@ -108,11 +109,11 @@ class Node(DpgNodeABC):
         node_image_dict,
         node_result_dict,
     ):
-        tag_node_name = str(node_id) + ':' + self.node_tag
-        output_value01_tag = tag_node_name + ':' + self.TYPE_IMAGE + ':Output01Value'
+        tag_node_name = str(node_id) + ":" + self.node_tag
+        output_value01_tag = tag_node_name + ":" + self.TYPE_IMAGE + ":Output01Value"
 
-        small_window_w = self._opencv_setting_dict['input_window_width']
-        small_window_h = self._opencv_setting_dict['input_window_height']
+        small_window_w = self._opencv_setting_dict["input_window_width"]
+        small_window_h = self._opencv_setting_dict["input_window_height"]
 
         # VideoCapture()インスタンス生成
         image_path = self._image_filepath.get(str(node_id), None)
@@ -139,13 +140,13 @@ class Node(DpgNodeABC):
         pass
 
     def get_setting_dict(self, node_id):
-        tag_node_name = str(node_id) + ':' + self.node_tag
+        tag_node_name = str(node_id) + ":" + self.node_tag
 
         pos = dpg.get_item_pos(tag_node_name)
 
         setting_dict = {}
-        setting_dict['ver'] = self._ver
-        setting_dict['pos'] = pos
+        setting_dict["ver"] = self._ver
+        setting_dict["pos"] = pos
 
         return setting_dict
 
@@ -153,6 +154,6 @@ class Node(DpgNodeABC):
         pass
 
     def _callback_file_select(self, sender, data):
-        if data['file_name'] != '.':
-            node_id = sender.split(':')[1]
-            self._image_filepath[node_id] = data['file_path_name']
+        if data["file_name"] != ".":
+            node_id = sender.split(":")[1]
+            self._image_filepath[node_id] = data["file_path_name"]

@@ -1,18 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import copy
-import time
 import multiprocessing as mp
+import time
 
 import cv2
-import numpy as np
-from PIL import ImageGrab
 import dearpygui.dearpygui as dpg
-
-from node_editor.util import dpg_get_value, dpg_set_value
-
+import numpy as np
 from node.node_abc import DpgNodeABC
-from node_editor.util import convert_cv_to_dpg
+from node_editor.util import convert_cv_to_dpg, dpg_get_value, dpg_set_value
+from PIL import ImageGrab
 
 
 def screen_capture_process(image_queue, request):
@@ -31,10 +28,10 @@ def screen_capture_process(image_queue, request):
 
 
 class Node(DpgNodeABC):
-    _ver = '0.0.1'
+    _ver = "0.0.1"
 
-    node_label = 'Screen Capture'
-    node_tag = 'ScreenCapture'
+    node_label = "Screen Capture"
+    node_tag = "ScreenCapture"
 
     _opencv_setting_dict = None
 
@@ -57,20 +54,24 @@ class Node(DpgNodeABC):
         callback=None,
     ):
         # タグ名
-        tag_node_name = str(node_id) + ':' + self.node_tag
-        tag_node_output01_name = tag_node_name + ':' + self.TYPE_IMAGE + ':Output01'
-        tag_node_output01_value_name = tag_node_name + ':' + self.TYPE_IMAGE + ':Output01Value'
-        tag_node_output02_name = tag_node_name + ':' + self.TYPE_TIME_MS + ':Output02'
-        tag_node_output02_value_name = tag_node_name + ':' + self.TYPE_TIME_MS + ':Output02Value'
+        tag_node_name = str(node_id) + ":" + self.node_tag
+        tag_node_output01_name = tag_node_name + ":" + self.TYPE_IMAGE + ":Output01"
+        tag_node_output01_value_name = (
+            tag_node_name + ":" + self.TYPE_IMAGE + ":Output01Value"
+        )
+        tag_node_output02_name = tag_node_name + ":" + self.TYPE_TIME_MS + ":Output02"
+        tag_node_output02_value_name = (
+            tag_node_name + ":" + self.TYPE_TIME_MS + ":Output02Value"
+        )
 
         # OpenCV向け設定
         self._opencv_setting_dict = opencv_setting_dict
-        small_window_w = self._opencv_setting_dict['input_window_width']
-        small_window_h = self._opencv_setting_dict['input_window_height']
-        use_pref_counter = self._opencv_setting_dict['use_pref_counter']
+        small_window_w = self._opencv_setting_dict["input_window_width"]
+        small_window_h = self._opencv_setting_dict["input_window_height"]
+        use_pref_counter = self._opencv_setting_dict["use_pref_counter"]
 
         # 初期化用黒画像
-        black_image = np.zeros((small_window_w, small_window_h, 3))
+        black_image = np.zeros((small_window_w, small_window_h, 4))
         black_texture = convert_cv_to_dpg(
             black_image,
             small_window_w,
@@ -84,31 +85,31 @@ class Node(DpgNodeABC):
                 small_window_h,
                 black_texture,
                 tag=tag_node_output01_value_name,
-                format=dpg.mvFormat_Float_rgb,
+                format=dpg.mvFormat_Float_rgba,
             )
 
         # ノード
         with dpg.node(
-                tag=tag_node_name,
-                parent=parent,
-                label=self.node_label,
-                pos=pos,
+            tag=tag_node_name,
+            parent=parent,
+            label=self.node_label,
+            pos=pos,
         ):
             # カメラ画像
             with dpg.node_attribute(
-                    tag=tag_node_output01_name,
-                    attribute_type=dpg.mvNode_Attr_Output,
+                tag=tag_node_output01_name,
+                attribute_type=dpg.mvNode_Attr_Output,
             ):
                 dpg.add_image(tag_node_output01_value_name)
             # 処理時間
             if use_pref_counter:
                 with dpg.node_attribute(
-                        tag=tag_node_output02_name,
-                        attribute_type=dpg.mvNode_Attr_Output,
+                    tag=tag_node_output02_name,
+                    attribute_type=dpg.mvNode_Attr_Output,
                 ):
                     dpg.add_text(
                         tag=tag_node_output02_value_name,
-                        default_value='elapsed time(ms)',
+                        default_value="elapsed time(ms)",
                     )
 
         self._frame_count[str(node_id)] = 0
@@ -122,18 +123,18 @@ class Node(DpgNodeABC):
         node_image_dict,
         node_result_dict,
     ):
-        tag_node_name = str(node_id) + ':' + self.node_tag
-        output_value01_tag = tag_node_name + ':' + self.TYPE_IMAGE + ':Output01Value'
-        output_value02_tag = tag_node_name + ':' + self.TYPE_TIME_MS + ':Output02Value'
+        tag_node_name = str(node_id) + ":" + self.node_tag
+        output_value01_tag = tag_node_name + ":" + self.TYPE_IMAGE + ":Output01Value"
+        output_value02_tag = tag_node_name + ":" + self.TYPE_TIME_MS + ":Output02Value"
 
-        small_window_w = self._opencv_setting_dict['input_window_width']
-        small_window_h = self._opencv_setting_dict['input_window_height']
-        use_pref_counter = self._opencv_setting_dict['use_pref_counter']
+        small_window_w = self._opencv_setting_dict["input_window_width"]
+        small_window_h = self._opencv_setting_dict["input_window_height"]
+        use_pref_counter = self._opencv_setting_dict["use_pref_counter"]
 
         # スクリーンキャプチャスレッド生成
         if self._process is None:
             self._image_queue = mp.Queue(maxsize=1)
-            self._request = mp.Value('i', 1)
+            self._request = mp.Value("i", 1)
             self._process = mp.Process(
                 target=screen_capture_process,
                 args=(
@@ -161,8 +162,7 @@ class Node(DpgNodeABC):
         if use_pref_counter:
             elapsed_time = time.perf_counter() - start_time
             elapsed_time = int(elapsed_time * 1000)
-            dpg_set_value(output_value02_tag,
-                          str(elapsed_time).zfill(4) + 'ms')
+            dpg_set_value(output_value02_tag, str(elapsed_time).zfill(4) + "ms")
 
         # 描画
         if frame is not None:
@@ -185,13 +185,13 @@ class Node(DpgNodeABC):
             self._process = None
 
     def get_setting_dict(self, node_id):
-        tag_node_name = str(node_id) + ':' + self.node_tag
+        tag_node_name = str(node_id) + ":" + self.node_tag
 
         pos = dpg.get_item_pos(tag_node_name)
 
         setting_dict = {}
-        setting_dict['ver'] = self._ver
-        setting_dict['pos'] = pos
+        setting_dict["ver"] = self._ver
+        setting_dict["pos"] = pos
 
         return setting_dict
 

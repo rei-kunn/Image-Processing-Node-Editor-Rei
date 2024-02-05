@@ -17,7 +17,7 @@ class MoveNet(object):
             #     'trt_engine_cache_path': '.',
             #     'trt_fp16_enable': True,
             # }),
-            'CUDAExecutionProvider',
+            # 'CUDAExecutionProvider',
             'CPUExecutionProvider',
         ],
     ):
@@ -105,7 +105,7 @@ class MoveNetSinglePoseLightning(object):
             #     'trt_engine_cache_path': '.',
             #     'trt_fp16_enable': True,
             # }),
-            'CUDAExecutionProvider',
+            # 'CUDAExecutionProvider',
             'CPUExecutionProvider',
         ],
     ):
@@ -129,7 +129,7 @@ class MoveNetSinglePoseThunder(object):
             #     'trt_engine_cache_path': '.',
             #     'trt_fp16_enable': True,
             # }),
-            'CUDAExecutionProvider',
+            # 'CUDAExecutionProvider',
             'CPUExecutionProvider',
         ],
     ):
@@ -153,7 +153,7 @@ class MoveNetMultiPoseLightning(object):
             #     'trt_engine_cache_path': '.',
             #     'trt_fp16_enable': True,
             # }),
-            'CUDAExecutionProvider',
+            # 'CUDAExecutionProvider',
             'CPUExecutionProvider',
         ],
     ):
